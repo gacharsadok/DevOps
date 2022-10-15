@@ -47,10 +47,8 @@ public class testProduitservice {
 		Produit savedProduit= produitservice.addProduit(c);
 		assertNotNull(savedProduit.getDateCreation());
 		assertNotNull(savedProduit.getDateDerniereModification());
-	
-
-	//	assertEquals(2.5,savedProduit.getPrix() );
-
+		float prix = 2.5f;
+	    assertEquals(prix, (float)savedProduit.getPrix(), 0.0000);
 		assertNotNull(savedProduit.getCodeProduit());
 		assertNotNull(savedProduit.getLibelleProduit());
 		produitservice.deleteProduit(savedProduit.getIdProduit());	
