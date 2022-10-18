@@ -1,0 +1,103 @@
+pipeline {
+    agent any
+tools 
+{
+maven 'M2_HOME'
+}
+ environment { 
+
+        registry = "eyajdir/devops" 
+
+        registryCredential = 'dockerHub' 
+
+        dockerImage = '' 
+
+    }
+    
+    stages {
+        stage('Checkout GIT') {
+            steps {
+                git branch:'eya',
+                url:'https://github.com/gacharsadok/DevOps'
+                
+                script{
+                                    Date date = new Date()
+String datePart = date.format("dd/MM/yyyy")
+String timePart = date.format("HH:mm:ss")
+
+println "date : " + datePart + "\ttime : " + timePart
+                }
+
+            }
+        }
+        stage('MVN CLEAN')
+        {
+        steps {
+        sh """mvn -version"""
+        sh 'mvn clean'
+        }
+        
+        }
+        stage('MVN COMPILE')
+        {
+        steps {
+        sh 'mvn compile'
+        }
+        }
+       
+        stage('MVN SONARQUBE')
+        {
+        steps{
+        sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar'
+        }
+        }
+             stage('MVN INSTALL')
+        {
+        steps {
+        sh 'mvn install'
+        }
+        }
+          stage('Building our image') { 
+
+            steps { 
+
+                script { 
+
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER" 
+
+                }
+
+            } 
+
+        }
+
+        stage('Deploy our image') { 
+
+            steps { 
+
+                script { 
+
+                    docker.withRegistry( '', registryCredential ) { 
+
+                        dockerImage.push() 
+
+                    }
+
+                } 
+
+            }
+
+        } 
+
+        stage('Cleaning up') { 
+
+            steps { 
+
+                sh "docker rmi $registry:$BUILD_NUMBER" 
+
+            }
+
+        } 
+    }
+    
+}
