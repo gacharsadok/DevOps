@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
-class Test1 {
+class StockServiceImplMock {
 
     @Mock
     StockRepository stockRepository;
@@ -41,11 +41,9 @@ class Test1 {
     }
 
     @Test
-    void retrieveAllStocks()
-    {
+    void retrieveAllStocks() {
         Mockito.when(stockRepository.findAll()).thenReturn(listStocks);
         List<Stock> list = StI.retrieveAllStocks();
         Assertions.assertNotNull(list);
     }
-
 }
