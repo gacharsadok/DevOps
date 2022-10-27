@@ -15,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import tn.esprit.rh.achat.entities.SecteurActivite;
 
 import tn.esprit.rh.achat.repositories.SecteurActiviteRepository;
-import tn.esprit.rh.achat.services.SecteurActiviteServiceImpl;
+ import tn.esprit.rh.achat.services.SecteurActiviteServiceImpl;
 
 
 @SpringBootTest
