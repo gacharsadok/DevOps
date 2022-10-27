@@ -30,7 +30,7 @@ println "date : " + datePart + "\ttime : " + timePart
 
             }
         }
-        stage('MVN CLEAN')
+         stage('MVN CLEAN')
         {
         steps {
         sh """mvn -version"""
@@ -38,25 +38,31 @@ println "date : " + datePart + "\ttime : " + timePart
         }
         
         }
-        stage('MVN COMPILE')
+        stage('MVN PACKAGE')
         {
         steps {
-        sh 'mvn compile'
+        sh 'mvn package'
         }
-        }
-       
+        }  
         stage('MVN SONARQUBE')
         {
         steps{
-        sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar'
+        sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=admin7'
         }
         }
-             stage('MVN INSTALL')
+        stage('MVN TEST')
         {
         steps {
-        sh 'mvn install'
+        sh 'mvn test'
         }
         }
+        stage('MVN DEPLOY')
+        {
+        steps {
+        sh 'mvn deploy -Dmaven.test.skip=true'
+        }
+        }
+
           stage('Building our image') { 
 
             steps { 
@@ -99,5 +105,6 @@ println "date : " + datePart + "\ttime : " + timePart
 
         } 
     }
-    
+     
 }
+       
