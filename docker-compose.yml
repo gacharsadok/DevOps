@@ -1,0 +1,21 @@
+version: "3.3"
+
+services:
+ mysqldb:
+  container_name: mysqldb
+  image: mysql:8
+  restart: unless-stopped
+  environment:
+   MYSOL_ROOT_PASSWORD: root
+  ports:
+    - "3306:3306"
+  volumes:
+    - /home/mysql/data:/var/lib/mysql
+ spring_app:
+  image: gacharsadok/achat
+  container_name: achat
+  restart: on-failure
+  ports:
+    - 9090:9090
+  depends_on:
+    - mysqldb

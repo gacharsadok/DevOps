@@ -60,6 +60,7 @@
 			<version>5.9.1</version>
 		</dependency>
 	</dependencies>
+<<<<<<< HEAD
 
 	<!-- Deploy to Nexus -->
 	<distributionManagement>
@@ -68,6 +69,16 @@
 			<url>http://192.168.1.8:8081/repository/maven-releases/ </url>
 		</repository>
 	</distributionManagement>
+=======
+	<distributionManagement>
+		<repository>
+			<id>deploymentRepo</id>
+			<name>Nexus Repository</name>
+			<url>http://192.168.1.8:8081/repository/nexuss/</url>
+		</repository>
+	</distributionManagement>
+
+>>>>>>> f62aa4327a390261ac0fd98cf10353f779e6a0b4
 	<build>
 		<plugins>
 			<plugin>
@@ -120,4 +131,8 @@
 		</plugins>
 	</build>
 
+<<<<<<< HEAD
 </project>
+=======
+</project>
+>>>>>>> f62aa4327a390261ac0fd98cf10353f779e6a0b4
