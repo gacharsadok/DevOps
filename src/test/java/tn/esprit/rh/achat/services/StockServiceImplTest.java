@@ -61,8 +61,4 @@
 //        St.retrieveStatusStock();
 //    }
 //
-<<<<<<< HEAD
-//}
-=======
-//}
->>>>>>> f62aa4327a390261ac0fd98cf10353f779e6a0b4
+
