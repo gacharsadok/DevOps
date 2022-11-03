@@ -64,7 +64,7 @@
 	<!-- Deploy to Nexus -->
 	<distributionManagement>
 		<repository>
-			<id>nexus-releases</id>
+			<id>deploymentRepo</id>
 			<url>http://172.16.1.129:8081/repository/nexuss/ </url>
 		</repository>
 	</distributionManagement>
