@@ -65,7 +65,7 @@
 	<distributionManagement>
 		<repository>
 			<id>nexus-releases</id>
-			<url>http://172.16.1.129:8081/repository/nexus/ </url>
+			<url>http://172.16.1.129:8081/repository/nexuss/ </url>
 		</repository>
 	</distributionManagement>
 	<build>
