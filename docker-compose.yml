@@ -19,7 +19,7 @@ services:
     - 8089:8089
   depends_on:
     - mysqldb
-   achatfront:
+  achatfront:
     image: gacharsadok/achatfront
     container_name: achatfront
     expose:
