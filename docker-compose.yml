@@ -7,6 +7,7 @@ services:
   restart: unless-stopped
   environment:
    MYSOL_ROOT_PASSWORD: sadok
+   MYSQL_DATABASE: 'achatdb'
   ports:
     - "3306:3306"
   volumes:
@@ -17,9 +18,17 @@ services:
   restart: on-failure
   ports:
     - 8089:8089
+  environment:
+      SPRING_APPLICATION_JSON: '{
+           "spring.datasource.url"  : "jdbc:mysql://mysqldb:3306/achatdb?useSSL=false",
+           "spring.datasource.username" : "root",
+           "spring.datasource.password" : ,
+           "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5InnoDBDialect",
+           "spring.jpa.hibernate.ddl-auto" : "update"
+         }'
   depends_on:
     - mysqldb
-  achatfront:
+ achatfront:
     image: gacharsadok/achatfront
     container_name: achatfront
     expose:
@@ -32,4 +41,5 @@ services:
       - 4200:4200
     restart: on-failure
 
-    command: "ng serve --open --host 192.168.1.8 --port 4200 --disable-host-check"
+  
+
