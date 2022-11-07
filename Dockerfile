@@ -1,4 +1,3 @@
-/*FROM openjdk:8-jre-alpineCOPY achat*.jar achat-1.0.jar EXPOSE 8089ENTRYPOINT ["java", "-jar", "achat-1.0.jar"]*/
 FROM openjdk:8-jdk-alpine
 EXPOSE 8089
 FROM alpine/curl
