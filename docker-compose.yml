@@ -11,7 +11,7 @@ services:
   ports:
     - "3306:3306"
   volumes:
-    - /home/mysql/data:/var/lib/mysql
+    - db:/var/lib/mysql
  spring_app:
   image: gacharsadok/achat
   container_name: achat
@@ -28,7 +28,19 @@ services:
          }'
   depends_on:
     - mysqldb
-
+  volumes:
+      - .m2:/root/.m2
+achatfront:
+    image: gacharsadok/achatfront
+    container_name: achatfront
+    links:
+      - spring_app
+    depends_on:
+      - spring_app
+    ports:
+      - 4200:80
+volumes:
+  db:
 
   
 
