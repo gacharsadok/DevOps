@@ -33,9 +33,7 @@ services:
       - .m2:/root/.m2
   depends_on:
       - mysqldb
-  stdin_open: true
-  tty: true
-  
+ 
  achatfront:
     image: gacharsadok/achatfront
     container_name: achatfront
