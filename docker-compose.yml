@@ -2,17 +2,22 @@ version: "3.3"
 
 services:
  mysqldb:
-  container_name: mysql
+  container_name: mysqldb
   image: mysql
   restart: unless-stopped
   environment:
-   MYSOL_ROOT_PASSWORD: sadok
+   MYSQL_ROOT_PASSWORD: 'devops'
    MYSQL_DATABASE: 'achatdb'
+   MYSQL_USER: 'devops'
+   MYSQL_PASSWORD: 'devops'
+   MYSQL_ROOT_HOST: '%'
   ports:
     - "3306:3306"
   volumes:
-    - /home/mysql/data:/var/lib/mysql
+    - db:/var/lib/mysql
  spring_app:
+  depends_on:
+    - mysqldb
   image: gacharsadok/achat
   container_name: achat
   restart: on-failure
@@ -20,11 +25,28 @@ services:
     - 8089:8089
   environment:
       SPRING_APPLICATION_JSON: '{
-           "spring.datasource.url"  : "jdbc:mysql://mysqldb:3306/achatdb?useSSL=false",
-           "spring.datasource.username" : "root",
-           "spring.datasource.password" : ,
-           "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5InnoDBDialect",
-           "spring.jpa.hibernate.ddl-auto" : "update"
-         }'
+        "spring.datasource.url"  : "jdbc:mysql://mysqldb:3306/achatdb?useSSL=false",
+        "spring.datasource.username" : "devops",
+        "spring.datasource.password" : "devops",
+        "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5InnoDBDialect",
+        "spring.jpa.hibernate.ddl-auto" : "update"
+      }'
+  volumes:
+    - .m2:/root/.m2
+  stdin_open: true
+  tty: true
+  
+ achatfront:
+  image: gacharsadok/achatfront
+  container_name: achatfront
+  expose:
+    - 4200
+  links:
+    - spring_app
   depends_on:
-    - mysqldb
+    - spring_app
+  ports:
+    - 4200:4200
+  restart: on-failure
+volumes:
+ db:
