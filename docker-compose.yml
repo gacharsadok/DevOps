@@ -30,7 +30,7 @@ services:
     - mysqldb
   volumes:
       - .m2:/root/.m2
-achatfront:
+ achatfront:
     image: gacharsadok/achatfront
     container_name: achatfront
     links:
@@ -41,6 +41,3 @@ achatfront:
       - 4200:80
 volumes:
   db:
-
-  
-
