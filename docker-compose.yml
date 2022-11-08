@@ -30,6 +30,14 @@ services:
       - .m2:/root/.m2
   depends_on:
       - mysqldb
- 
+ achatfront:
+  image: gacharsadok/achatfront
+  container_name: achatfront
+  links:
+    - spring_app
+  depends_on:
+    - spring_app
+  ports:
+    - 4200:80
 volumes:
   db:
