@@ -41,7 +41,7 @@ class ReglementServiceImplMock {
     }
 
     @Test
-    void retrieveAllReglement() {
+    void retrieveAllReglements() {
         Mockito.when(reglementRepository.findAll()).thenReturn(listReglement);
         List<Reglement> list = StI.retrieveAllReglement();
         Assertions.assertNotNull(list);
