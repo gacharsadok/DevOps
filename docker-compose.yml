@@ -2,7 +2,7 @@ version: "3.3"
 
 services:
   mysqldb:
-    container_name: mysqldb
+    container_name: mysqldbb
     image: mysql:8
     restart: unless-stopped
     environment:
@@ -14,7 +14,7 @@ services:
       - db:/var/lib/mysql
   app:
     depends_on:
-      - mysqldb
+      - mysqldbb
     image: gacharsadok/achat
     container_name: achat
     restart: on-failure
