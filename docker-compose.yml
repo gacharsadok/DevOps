@@ -15,7 +15,7 @@ services:
   app:
     depends_on:
       - mysqldb
-    image: gacharsadok/achat
+    image: achat
     container_name: achat
     restart: on-failure
     ports:
