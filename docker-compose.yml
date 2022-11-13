@@ -3,16 +3,16 @@ version: "3.3"
 services:
  mysqldb:
   container_name: mysqldb
-  image: mysql
+  image: mysql:8
   restart: unless-stopped
   environment:
-   MYSOL_ROOT_PASSWORD: sadok
+   MYSOL_ROOT_PASSWORD: root
   ports:
     - "3306:3306"
   volumes:
-    - db:/var/lib/mysql
+    - /home/mysql/data:/var/lib/mysql
  spring_app:
-  image: gacharsadok/achat
+  image: achat
   container_name: achat
   restart: on-failure
   ports:
