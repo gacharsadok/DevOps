@@ -1,5 +1,7 @@
 package tn.esprit.rh.achat.util;
 
+
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -31,7 +33,7 @@ public class SpringFoxSwaggerConfig {
 				.securityContexts(Collections.singletonList(securityContext()))
 				.securitySchemes(Arrays.asList(apiKey()))
 				.select()
-				.apis(RequestHandlerSelectors.basePackage("com.esprit.examen.controller"))
+				.apis(RequestHandlerSelectors.basePackage("tn.esprit.rh.achat.controllers"))
 				.paths(PathSelectors.any())
 				.build();
 	}
