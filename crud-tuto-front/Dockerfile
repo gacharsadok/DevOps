@@ -1,6 +1,3 @@
-FROM node:alpine 
-WORKDIR /app
-RUN npm install
-COPY . /app/
-RUN npm run build --prod
 FROM nginx:alpine
+COPY dist/crudtuto-Front /usr/share/nginx/html
+EXPOSE 4200:80
