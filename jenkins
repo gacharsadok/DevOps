@@ -1,9 +1,6 @@
 pipeline {
     agent any
-tools 
-{
-maven 'M2_HOME'
-}
+
  environment { 
 
         registry = "eyajdir/devops" 
@@ -15,7 +12,7 @@ maven 'M2_HOME'
     }
     
     stages {
-        stage('Checkout GIT') {
+        stage('GIT') {
             steps {
                 git branch:'eya',
                 url:'https://github.com/gacharsadok/DevOps'
@@ -30,7 +27,7 @@ println "date : " + datePart + "\ttime : " + timePart
 
             }
         }
-         stage('MVN CLEAN')
+         stage('CLEAN')
         {
         steps {
         sh """mvn -version"""
@@ -38,32 +35,42 @@ println "date : " + datePart + "\ttime : " + timePart
         }
         
         }
-        stage('MVN PACKAGE')
+        stage('PACkAGE')
         {
         steps {
         sh 'mvn package'
         }
-        }  
-        stage('MVN SONARQUBE')
+        }
+        stage('Compile') {
+             
+             
+            steps {
+                sh 'mvn compile'
+               
+            }
+        }
+       
+          
+        stage('SONAR')
         {
         steps{
         sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=admin7'
         }
         }
-        stage('MVN TEST')
+        stage('TEST')
         {
         steps {
         sh 'mvn test'
         }
         }
-        stage('MVN DEPLOY')
+        stage('DEPLOY')
         {
         steps {
         sh 'mvn deploy -Dmaven.test.skip=true'
         }
         }
 
-          stage('Building our image') { 
+          stage('BUILD') { 
 
             steps { 
 
@@ -77,7 +84,7 @@ println "date : " + datePart + "\ttime : " + timePart
 
         }
 
-        stage('Deploy our image') { 
+        stage('PUSH') { 
 
             steps { 
 
@@ -103,6 +110,13 @@ println "date : " + datePart + "\ttime : " + timePart
 
             }
 
+        }
+           stage('Docker compose ')
+        {
+        steps {
+        sh 'docker-compose down '
+        sh ' docker-compose up -d'
+        }
         } 
     }
      
