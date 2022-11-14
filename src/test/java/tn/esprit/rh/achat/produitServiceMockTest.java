@@ -22,7 +22,7 @@ import tn.esprit.rh.achat.services.ProduitServiceImpl;
 import tn.esprit.rh.achat.services.StockServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
-class ProduitServiceImplTest {
+class produitServiceMockTest {
 
     @Mock
 	StockRepository stockrepo;
