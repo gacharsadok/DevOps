@@ -41,7 +41,7 @@ println "date : " + datePart + "\ttime : " + timePart
         stage('PACkAGE')
         {
         steps {
-        sh 'mvn package'
+        sh 'mvn package -Dmaven.test.skip=true'
         }
         }
         stage('Compile') {
