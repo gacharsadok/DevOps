@@ -1,4 +1,5 @@
 FROM openjdk:8-jre-alpine
-COPY achat*.jar achat-1.0.jar
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} achat-1.0.jar
 EXPOSE 8089
 ENTRYPOINT ["java", "-jar", "achat-1.0.jar"]
