@@ -17,7 +17,7 @@ services:
       - mysqldb
     image: chadha14/tpachat
     container_name: tpachat
-    restart: on-failure
+  
     ports:
       - "8089:8089"
     environment:
