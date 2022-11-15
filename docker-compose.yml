@@ -1,43 +1,56 @@
-version: "3.3"
+version: "3.7"
 
 services:
   mysqldb:
-    container_name: mysqldb
-    image: mysql:8
+    image: mysql:5.7
     restart: unless-stopped
+    networks:
+      - bored-network
     environment:
-      - MYSQL_ALLOW_EMPTY_PASSWORD= yes
-      - MYSQL_DATABASE=achatdb
+      - MYSQL_ROOT_PASSWORD=1234
+      - MYSQL_DATABASE=tpachat
     ports:
       - "3306:3306"
     volumes:
       - db:/var/lib/mysql
-  app:
+
+  tpachat:
     depends_on:
       - mysqldb
+    build:
+      context: .
+      dockerfile: Dockerfile
     image: gacharsadok/achat
-    container_name: achat
+    container_name: tpachat-container
     restart: on-failure
     ports:
       - "8089:8089"
+    networks:
+      - bored-network
     environment:
       SPRING_APPLICATION_JSON: '{
-        "spring.datasource.url"  : "jdbc:mysql://mysqldb:3306/achatdb?useSSL=false",
+        "spring.datasource.url"  : "jdbc:mysql://mysqldb:3306/tpachat?useSSL=false",
         "spring.datasource.username" : "root",
-        "spring.datasource.password" : "",
+        "spring.datasource.password" : "1234",
         "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5InnoDBDialect",
         "spring.jpa.hibernate.ddl-auto" : "update"
       }'
     volumes:
-      - .m2:/root/.m2
+      - .m2:/var/lib/tpachat
+    stdin_open: true
+    tty: true
   achatfront:
       image: gacharsadok/achatfront
       container_name: achatfront
       links:
-        - app
+        - tpachat
       depends_on:
-        - app
+        - tpachat
       ports:
         - 4200:80
+networks:
+  bored-network:
+    name: bored-network
 volumes:
   db:
+  .m2:
