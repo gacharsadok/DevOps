@@ -40,7 +40,7 @@ services:
     stdin_open: true
     tty: true  
   achatfront:
-    image: gacharsadok/achatfront
+    image: gacharsadok1/achatfront
     container_name: achatfront
     links:
       - tpachat
