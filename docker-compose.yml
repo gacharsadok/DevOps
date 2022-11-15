@@ -1,7 +1,7 @@
 version: "3.7"
 
 services:
-  mysqldb:
+  mysqldb: cc
     image: mysql:5.7
     restart: unless-stopped
     networks:
