@@ -39,15 +39,6 @@ services:
       - .m2:/var/lib/tpachat
     stdin_open: true
     tty: true  
-  achatfront:
-    image: gacharsadok1/achatfront
-    container_name: achatfront
-    links:
-      - tpachat
-    depends_on:
-      - tpachat
-    ports:
-      - 4200:80
 networks:
   bored-network:
     name: bored-network
