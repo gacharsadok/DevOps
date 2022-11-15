@@ -20,7 +20,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: gacharsadok/achat
+    image: gacharsadok1/achat
     container_name: tpachat-container
     restart: on-failure
     ports:
@@ -40,7 +40,7 @@ services:
     stdin_open: true
     tty: true
   achatfront:
-      image: gacharsadok/achatfront
+      image: gacharsadok1/achatfront
       container_name: achatfront
       links:
         - tpachat
