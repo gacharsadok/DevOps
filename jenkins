@@ -59,6 +59,7 @@ println "date : " + datePart + "\ttime : " + timePart
         steps{
         sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=admin7'
         }
+        
         }
         stage('TEST')
         {
