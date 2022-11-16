@@ -1,6 +1,4 @@
 FROM openjdk:8-jdk-alpine
-EXPOSE 8089
-ADD target/docker-spring-boot.jar docker-spring-boot.jar
-ENTRYPOINT ["java","-jar","/docker-spring-boot.jar"]
-
-
+EXPOSE 8083
+ADD target/achat-1.1.0.jar achat.jar
+ENTRYPOINT ["java","-jar","/achat.jar"]
