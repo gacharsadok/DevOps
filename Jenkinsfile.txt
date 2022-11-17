@@ -1,0 +1,151 @@
+pipeline {
+    agent any
+
+    tools {
+        // Install the Maven version configured as "M3" and add it to the path.
+        maven "M2_HOME"
+    }
+    environment {
+        NEXUS_VERSION = "nexus3"
+        NEXUS_PROTOCOL = "http"
+        NEXUS_URL = "192.168.33.10:8081"
+        NEXUS_REPOSITORY = "maven-nexus-repo"
+        NEXUS_CREDENTIAL_ID = "nexus"
+    }
+
+    stages
+    {
+        stage('GIT') 
+        {
+            steps 
+            {
+                // Get some code from a GitHub repository
+                git branch:'eyanasri',
+                url:'https://github.com/gacharsadok/DevOps.git'
+            }
+        }
+       
+        stage('MVN CLEAN') 
+        {
+             steps
+             {
+                  sh 'mvn clean'
+             }
+
+        }
+        
+        stage('MVN COMPILE')
+        {
+             steps 
+            {
+                sh 'mvn compile'
+            }
+        }
+
+        stage('SONARQUBE')
+        {
+             steps
+            {
+                sh 'mvn sonar:sonar -Dsonar.host.url=http://192.168.162.222:9000 -Dsonar.login=admin -Dsonar.password=root'
+            }
+        }
+        
+        stage("NEXUS") 
+        {
+            steps 
+               {
+                script {
+                    pom = readMavenPom file: "pom.xml";
+                    filesByGlob = findFiles(glob: "target/*.${pom.packaging}");
+                    echo "${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
+                    artifactPath = filesByGlob[0].path;
+                    artifactExists = fileExists artifactPath;
+                    if(artifactExists) {
+                        echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${pom.version}";
+                        nexusArtifactUploader(
+                            nexusVersion: NEXUS_VERSION,
+                            protocol: NEXUS_PROTOCOL,
+                            nexusUrl: NEXUS_URL,
+                            groupId: pom.groupId,
+                            version: pom.version,
+                            repository: NEXUS_REPOSITORY,
+                            credentialsId: NEXUS_CREDENTIAL_ID,
+                            artifacts: [
+                                [artifactId: pom.artifactId,
+                                classifier: '',
+                                file: artifactPath,
+                                type: pom.packaging],
+                                [artifactId: pom.artifactId,
+                                classifier: '',
+                                file: "pom.xml",
+                                type: "pom"]
+                            ]
+                        );
+                    } else {
+                        error "*** File: ${artifactPath}, could not be founddd";
+                    }
+                }
+            }
+
+
+        stage('MOKITO')
+        {
+              steps
+             {
+                sh 'mvn test'
+             }
+        }
+        
+    
+        
+        stage("BUILD IMAGE") 
+        {
+            steps 
+            {
+               
+                sh 'docker build -t eyanaasri/achat .'
+            
+            }
+        }
+        
+        stage('DOCKER LOGIN') 
+        {
+			steps 
+			{
+			    
+				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u="eyanaasri" -p="rootrootroot"'
+                
+			}
+		} 
+		
+		
+        stage('PUSH') 
+        {
+			steps 
+			{
+                
+				sh 'docker push eyanaasri/achat'
+               
+			}
+     	}
+     	
+     	
+    	stage('DEPLOY DOCKER-COMPOSE')
+    	{
+            steps
+            {
+                
+                    sh 'docker-compose up -d'
+                
+            }
+    	}   
+    	
+	}
+
+    post {
+        always {
+            emailext body: 'A Test EMail', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Test'
+        }
+    }
+}   
+   
