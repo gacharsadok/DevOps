@@ -19,8 +19,8 @@ pipeline {
         {
             steps 
             {
-                // Get some code from a GitHub repository
-                git branch:'eyanasri',
+                // NEXUS
+                git branch:'devops-sana',
                 url:'https://github.com/gacharsadok/DevOps.git'
             }
         }
@@ -46,7 +46,7 @@ pipeline {
         {
              steps
             {
-                sh 'mvn sonar:sonar -Dsonar.host.url=http://192.168.162.222:9000 -Dsonar.login=admin -Dsonar.password=root'
+                sh 'mvn sonar:sonar -Dsonar.host.url=http://192.168.33.10:9000 -Dsonar.login=admin -Dsonar.password=admin123'
             }
         }
         
@@ -82,7 +82,7 @@ pipeline {
                             ]
                         );
                     } else {
-                        error "*** File: ${artifactPath}, could not be founddd";
+                        error "*** File: ${artifactPath}, could not be found";
                     }
                 }
             }
@@ -103,7 +103,7 @@ pipeline {
             steps 
             {
                
-                sh 'docker build -t eyanaasri/achat .'
+                sh 'docker build -t sanamissaoui/achat .'
             
             }
         }
@@ -124,7 +124,7 @@ pipeline {
 			steps 
 			{
                 
-				sh 'docker push eyanaasri/achat'
+				sh 'docker push sanamissaoui/achat'
                
 			}
      	}
