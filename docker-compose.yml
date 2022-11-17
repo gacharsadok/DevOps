@@ -39,7 +39,7 @@ services:
       - .m2:/var/lib/tpachat
     stdin_open: true
     tty: true
-   achatfront:
+  achatfront:
     image: gacharsadok1/achatfront
     container_name: achatfront
     links:
