@@ -113,7 +113,7 @@ pipeline {
 			steps 
 			{
 			    
-				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u="eyanaasri" -p="rootrootroot"'
+				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u="sanamissaoui" -p="user@docker22"'
                 
 			}
 		} 
