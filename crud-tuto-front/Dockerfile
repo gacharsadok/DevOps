@@ -1,5 +1,5 @@
 # Stage 1: Compile and Build angular codebase
-FROM node:12.18-alpine as build
+FROM node:12.18-alpine 
 WORKDIR /app
 COPY . .
 RUN npm install --force
